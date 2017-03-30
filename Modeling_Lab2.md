@@ -188,11 +188,11 @@ _Замечание. Посмотреть метод в общем виде мо
 
 ![](http://latex.codecogs.com/svg.latex?k_1&space;=&space;f(I_n,&space;U_c_n),&space;m_1&space;=&space;g(I_n))
 
-![](http://latex.codecogs.com/svg.latex?k_2&space;=&space;f(I_n&space;&plus;&space;\frac{k_1}{2},&space;U_c_n&space;&plus;&space;\frac{m_1}{2}),&space;m_2&space;=&space;g(I_n&space;&plus;&space;\frac{k_1}{2}))
+![](http://latex.codecogs.com/svg.latex?k_2&space;=&space;f(I_n&space;&plus;&space;\Delta&space;t\frac{k_1}{2},&space;U_c_n&space;&plus;&space;\Delta&space;t\frac{m_1}{2}),&space;m_2&space;=&space;g(I_n&space;&plus;&space;\Delta&space;t\frac{k_1}{2}))
 
-![](http://latex.codecogs.com/svg.latex?k_3&space;=&space;f(I_n&space;&plus;&space;\frac{k_2}{2},&space;U_c_n&space;&plus;&space;\frac{m_2}{2}),&space;m_3&space;=&space;g(I_n&space;&plus;&space;\frac{k_2}{2}))
+![](http://latex.codecogs.com/svg.latex?k_3&space;=&space;f(I_n&space;&plus;&space;\Delta&space;t\frac{k_2}{2},&space;U_c_n&space;&plus;&space;\Delta&space;t\frac{m_2}{2}),&space;m_3&space;=&space;g(I_n&space;&plus;&space;\Delta&space;t\frac{k_2}{2}))
 
-![](http://latex.codecogs.com/svg.latex?k_4&space;=&space;f(I_n&space;&plus;&space;k_3,&space;U_c_n&space;&plus;&space;m_3),&space;m_4&space;=&space;g(I_n&space;&plus;&space;k_3))
+![](http://latex.codecogs.com/svg.latex?k_4&space;=&space;f(I_n&space;&plus;&space;\Delta&space;t&space;k_3,&space;U_c_n&space;&plus;&space;\Delta&space;tm_3),&space;m_4&space;=&space;g(I_n&space;&plus;&space;\Delta&space;tk_3))
 
 Помимо `I(t)` и `Uc(t)`, которые тут вычисляются, надо также вывести:
  * `Rp(t)` - по сути, это просто значение сопротивления _Rp_ для соответствующего значения силы тока _I_
@@ -216,7 +216,7 @@ _Замечание. Посмотреть метод в общем виде мо
 
 Подставим выражения _f_ и _g_:
 
-![](http://latex.codecogs.com/svg.latex?I_{n&plus;1}&space;=&space;I_n&space;&plus;&space;\frac{U_c_n&space;-&space;\(R_k&space;&plus;&space;R_p\(I_n\)\)I_n&space;&plus;&space;U_{cn&plus;1}&space;-&space;\(R_k&space;&plus;&space;R_p\(I_{n&plus;1}\)\)I_{n&plus;1}}{2L_k})
+![](http://latex.codecogs.com/svg.latex?I_{n&plus;1}&space;=&space;I_n&space;&plus;&space;\Delta&space;t\frac{U_c_n&space;-&space;(R_k&space;&plus;&space;R_p(I_n))I_n&space;&plus;&space;U_{cn&plus;1}&space;-&space;(R_k&space;&plus;&space;R_p(I_{n&plus;1}))I_{n&plus;1}}{2L_k})
 
 ![](http://latex.codecogs.com/svg.latex?U_{cn&plus;1}&space;=&space;U_c_n&space;-&space;\Delta&space;t\frac{I_n&plus;&space;I_{n&plus;1}}{2C_k})
 
