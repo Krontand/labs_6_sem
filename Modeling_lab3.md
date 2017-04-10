@@ -1,8 +1,9 @@
 # Лабораторная работа №3 по моделированию
-### Постановка задачи
+## Постановка задачи
+
 Физическая суть лабораторной: необходимо рассчитать температуру на всей длине стержня, который нагревают с одного из торцов.
 
-![](https://4.downloader.disk.yandex.ru/disk/a62e92dde1940ab0dd5e13a9a876e61c416950764a82cf8252830f5dfc09f7d3/58e04e13/m8c41i0kWxNC1MHB2salV-ckta-UvEVi_sf8fdWtUBttPGhs0dPMytnZDuj0bJxAhYDtgupEuM8_pI-4LjUA-w%3D%3D?uid=0&filename=%D1%84%D1%81.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&fsize=2613&hid=3865f30a2fc9f97acc6b6b10696311ed&media_type=image&tknv=v2&etag=3b7fa32f8bab86a673cb5587ba63bf0c)
+![](/assets/l3_scheme.png)
 
 Исходные данные:
 * l = 10см (Длина стержня)
@@ -26,8 +27,8 @@
 
 ![](http://latex.codecogs.com/svg.latex?(x&space;=&space;l)&space;\Rightarrow&space;-k\frac{dT}{dx}&space;=&space;\alpha(T(l)&space;-&space;T_{env}))
 
-### Коэффициенты теплопроводности и теплоотдачи
-***
+## Коэффициенты теплопроводности и теплоотдачи
+
 _Рассмотрим только нахождение коэффициента теплоотдачи, коэффициент теплопроводности будет вычисляться точно так же, надо только заменить везде α на k._
 По условию коэффициент `α` есть функция от `х`:
 
@@ -39,8 +40,8 @@ _Рассмотрим только нахождение коэффициента
 
 ![](http://latex.codecogs.com/svg.latex?a&space;=&space;-\alpha_0&space;b)
 
-## Решение дифференциального уравнения
-### Метод прогонки
+## Метод прогонки
+
 Несколько заходя вперед, скажем, что для решения исходного уравнения надо будет получить разностную схему, из которой, в свою очередь, получится система из N уравнений, которую можно будет подогнать и решить методом прогонки. Метод прогонки дается в общем виде, и предполагается, что закодить ее надо также в общем виде.
 
 Имеем систему уравнений следующего вида:
@@ -77,5 +78,64 @@ _Обратите внимание, что прогоночные коэффиц
 Начальное значение `yN` считается из граничных условий:
 
 ![](http://latex.codecogs.com/svg.latex?y_N=\frac{P_N&space;-&space;M_N\eta_N}{K_N&plus;M_N\xi_N})
+
+## Получение разностной схемы из ДУ
+
+Разностная схема в данном случае получается при помощи достаточно сильного колдунства и интегро-интерполяционного метода. Все формулы будут приведены в общем виде, но поменять функции на те, что даны в лабораторной будет несложно. Полный вывод можно найти в лекциях.
+
+Итак, имеем уравнение:
+
+![](http://latex.codecogs.com/svg.latex?(1):\frac{d}{dx}\left(&space;k(x)\frac{dU}{dx}\right&space;)-p(x)U&plus;f(x)=0)
+
+Введем обозначение:
+
+![](http://latex.codecogs.com/svg.latex?(2):F=-k(x)\frac{dU}{dx})
+
+Тогда:
+
+![](http://latex.codecogs.com/svg.latex?(3):-\frac{dF}{dx}-p(x)U&plus;f(x)=0)
+
+Проинтегрируем **(3)** на ячейке:
+
+![](http://latex.codecogs.com/svg.latex?-\int_{x_{n-1/2}}^{x_{n&plus;1/2}}\frac{dF}{dx}dx-\int_{x_{n-1/2}}^{x_{n&plus;1/2}}p(x)U(x)dx&plus;\int_{x_{n-1/2}}^{x_{n&plus;1/2}}f(x)dx=0)
+
+Первый интеграл считается тривиально, а второй и третий проинтегрируем методом средних прямоугольников:
+
+![](http://latex.codecogs.com/svg.latex?(4):F_{n-1/2}-F_{n&plus;1/2}-p_ny_nh&plus;f_nh=0)
+
+Проинтегрируем **(2)**:
+
+![](http://latex.codecogs.com/svg.latex?\int_{x_n}^{x_{n&plus;1}}\frac{F}{k(x)}dx=-\int_{x_n}^{x_{n&plus;1}}\frac{dU}{dx}dx)
+
+...блджать, как будто это кто-то будет изучать.
+
+### Суть
+
+После определенных манипуляций имеем выражение вида
+
+![](http://latex.codecogs.com/svg.latex?A_ny_{n-1}-B_ny_n&plus;C_ny_{n&plus;1}=-D_n)
+
+которое нам и нужно для метода прогонки. Соответствующие коэффициенты вычисляются как:
+
+![](http://latex.codecogs.com/svg.latex?A_n&space;=&space;\frac{X_{n-1/2}}{h})
+
+![](http://latex.codecogs.com/svg.latex?C_n&space;=&space;\frac{X_{n&plus;1/2}}{h})
+
+![](http://latex.codecogs.com/svg.latex?B_n&space;=&space;A_n&plus;C_n&plus;p_nh)
+
+![](http://latex.codecogs.com/svg.latex?D_n=f_nh)
+
+При этом
+
+![](http://latex.codecogs.com/svg.latex?X_{n&plus;1/2}&space;=&space;\frac{2k_nk_{n&plus;1}}{k_n&plus;k_{n&plus;1}};X_{n-1/2}&space;=&space;\frac{2k_nk_{n-1}}{k_n&plus;k_{n-1}})
+
+![](http://latex.codecogs.com/svg.latex?k_n=k(x_n))
+
+![](http://latex.codecogs.com/svg.latex?p_n=\frac{2\alpha(x_n)}{R})
+
+![](http://latex.codecogs.com/svg.latex?f_n=\frac{2\alpha(x_n)}{R}T_{env})
+
+
+
 
 
