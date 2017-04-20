@@ -8,9 +8,9 @@
 
 Из некоторых физических соображений получена система дифференциальных уравнений:
 
-![A](https://latex.codecogs.com/svg.latex?L_k\frac{dI}{dt}&space;&plus;&space;(R_k&space;&plus;&space;R_p\(I\))I&space;-&space;U_c&space;=&space;0)
+![A](/assets/2_1.png)
 
-![B](https://latex.codecogs.com/svg.latex?\frac{dUc}{dt}&space;=&space;-\frac{I}{Ck})
+![B](/assets/2_2.png)
 
 Ее необходимо решить (численно) и построить графики:
 
@@ -22,15 +22,15 @@
 
 Rp, оно же сопротивление газоразрядной трубки, находится в зависимости от силы тока:
 
-![](http://latex.codecogs.com/svg.latex?R_p&space;=&space;\frac{l_e}{2\pi\int_{0}^{R}\sigma\(T(r),&space;p\)rdr})
+![](/assets/2_3.png)
 
 Давление _p_ в формуле находится из следующего уравнения:
 
-![](http://latex.codecogs.com/svg.latex?\frac{2}{R^2}\int_{0}^{R}n\(T\(r\),&space;p\)rdr&space;-&space;\frac{p_{0[atm]}\cdot&space;7242}{T_{start}}&space;=&space;0)
+![](/assets/2_4.png)
 
 Функция T(r):
 
-![](http://latex.codecogs.com/svg.latex?T(r)&space;=&space;(T_w&space;-&space;T_0)(r/R)^m&space;&plus;&space;T_0)
+![](/assets/2_5.png)
 
 Электропроводность `σ(T, p)`, концентрация тяжелых частиц `n(T, p)`, а также `T0(I)` и `m(I)` заданы таблично.
 
@@ -68,7 +68,7 @@ I|T0|m
 
 Здесь все просто, используем обычную линейную интерполяцию:
 
-![](https://latex.codecogs.com/svg.latex?T\(I\)&space;=&space;T\(I_0\)&space;&plus;&space;\frac{T(I_1)&space;-&space;T(I_0)}{I_1&space;-&space;I_0}&space;(I&space;-&space;I_0))
+![](/assets/2_6.png)
 , где `(I0, T0)` и `(I1, T1)` - узлы таблицы, между которыми находится нужное значение.
 
 _Замечание. Здесь и далее при интерполяции: если нужно проинтерполировать точку, выходящую за границы данных таблицы, то нужно взять две ближайшие к ней точки. Предположим, если нужно получить T0 для I = 1500А, то из таблицы мы возьмем точки с I = 1200А и I = 800A. Формулы при этом не меняются._
@@ -136,15 +136,15 @@ T|p = 5атм|p = 15атм|p = 25атм
 
 От обычной линейной интерполяции эта отличается лишь тем, что интерполируем мы не значение функции f(x), а ее логарифм - log(f(x)). Затем нужно взять экспоненту и получится искомый результат.
 
-![](https://latex.codecogs.com/svg.latex?n_{log0}=&space;log\(n\(T_0,&space;p_0\)\)&space;&plus;&space;\frac{log\(n\(T_1,&space;p_0\)\)&space;-&space;log\(n\(T_0,&space;p_0\)\)}{T_1&space;-&space;T_0}&space;(T&space;-&space;T_0))
+![](/assets/2_7.png)
 
-![](https://latex.codecogs.com/svg.latex?n_{log1}=&space;log\(n\(T_0,&space;p_1\)\)&space;&plus;&space;\frac{log\(n\(T_1,&space;p_1\)\)&space;-&space;log\(n\(T_0,&space;p_1\)\)}{T_1&space;-&space;T_0}&space;(T&space;-&space;T_0))
+![](/assets/2_8.png)
 
 Две формулы выше отличаются только значением давления (условно говоря, находим точку слева и точку справа).
 
 И теперь интерполируем по второй оси:
 
-![](http://latex.codecogs.com/gif.latex?n\(T,&space;p\)&space;=&space;exp(n_{log0})&space;&plus;&space;\frac{exp(n_{log1})&space;-&space;exp(n_{log0})}{p_1&space;-&space;p_0}&space;(p&space;-&space;p_0))
+![](/assets/2_9.png)
 
 Все то же самое происходит для второй таблицы σ.
 
@@ -157,11 +157,10 @@ _Замечание. В идеале будет не считать логари
 
 Для нахождения _Rp_ необходимо воспользоваться данной формулой:
 
-![](http://latex.codecogs.com/svg.latex?R_p&space;=&space;\frac{l_e}{2\pi\int_{0}^{R}\sigma\(T(r),&space;p\)rdr})
-
+![](/assets/2_10.png)
 Однако в ней нам неизвестно давление _p_. Оно находится из следующего уравнения:
 
-![](http://latex.codecogs.com/svg.latex?\frac{2}{R^2}\int_{0}^{R}n\(T\(r\),&space;p\)rdr&space;-&space;\frac{p_{0[atm]}\cdot&space;7242}{T_{start}}&space;=&space;0)
+![](/assets/2_11.png)
 
 В этом уравнении все величины заданы, неизвестно лишь _p_. 
 
@@ -180,7 +179,7 @@ _Замечание. Я не буду детально описывать мет
 
 Каждый раз при вычислении функции нам необходимо считать интеграл 
 
-![](http://latex.codecogs.com/svg.latex?\int_{0}^{R}n\(T(r),&space;p\)rdr)
+![](/assets/2_12.png)
 
 Для этого воспользуемся методом Симпсона
 
@@ -189,13 +188,13 @@ _Замечание. Я не буду детально описывать мет
 Вообще для данного метода нужно любое нечетное количество узлов, но повелением свыше интеграл считается с использованием **41** узла.
 В начале вычисления сопротивления _Rp_ (а именно ради него все это происходит, если кто забыл) стоит завести массив температур _T( r )_ из 41 элемента. Температура высчитывается по формуле:
 
-![](http://latex.codecogs.com/svg.latex?T(r)&space;=&space;(T_w&space;-&space;T_0)(r/R)^m&space;&plus;&space;T_0), где
+![](/assets/2_13.png), где
 _T0_ и _m_ считаются из таблицы (ага! именно здесь проявляется зависимость Rp от силы тока I), а Tw и R - константы.
 Теперь можно считать интеграл по данной формуле Симпсона. _n(T, p)_ получается опять-таки из табличных значений.
 ***
 После решения уравнения полученное значение давления _p_ можно подставить в формулу для Rp:
 
-![](http://latex.codecogs.com/svg.latex?R_p&space;=&space;\frac{l_e}{2\pi\int_{0}^{R}\sigma\(T(r),&space;p\)rdr})
+![](/assets/2_14.png)
 
 Интеграл в ней считается аналогичным образом, массив температур можно использовать тот же самый, а σ(T, p) берется опять-таки из таблицы.
 
@@ -218,25 +217,24 @@ _Замечание. Посмотреть метод в общем виде мо
 
 Для начала выразим значения производных `dI/dt` и `dUc/dt` и для удобства обозначим их соответсвенно `f` и `g`.
 
-![](http://latex.codecogs.com/svg.latex?\frac{dI}{dt}&space;=&space;\frac{U_c&space;-&space;\(R_k&plus;R_p\(I\)\)I}{L_k}&space;\equiv&space;f(I,&space;Uc))
+![](/assets/2_15.png)
 
-![](http://latex.codecogs.com/svg.latex?\frac{dU_c}{dt}&space;=&space;-\frac{1}{C_k}I&space;\equiv&space;g(I))
+![](/assets/2_16.png)
 
 Решение системы заключается в применении формул:
 
-![](http://latex.codecogs.com/svg.latex?I_{n&plus;1}&space;=&space;I_n&space;&plus;&space;\Delta&space;t\frac{k_1&space;&plus;&space;2k_2&space;&plus;&space;2k_3&space;&plus;&space;k_4}{6})
-
-![](http://latex.codecogs.com/svg.latex?U_{n&plus;1}&space;=&space;U_n&space;&plus;&space;\Delta&space;t\frac{m_1&space;&plus;&space;2m_2&space;&plus;&space;2m_3&space;&plus;&space;m_4}{6})
+![](/assets/2_17.png)
+![](/assets/2_18.png)
 
 Коэффициенты k, m считаются следующим образом:
 
-![](http://latex.codecogs.com/svg.latex?k_1&space;=&space;f(I_n,&space;U_c_n),&space;m_1&space;=&space;g(I_n))
+![](/assets/2_19.png)
 
-![](http://latex.codecogs.com/svg.latex?k_2&space;=&space;f(I_n&space;&plus;&space;\Delta&space;t\frac{k_1}{2},&space;U_c_n&space;&plus;&space;\Delta&space;t\frac{m_1}{2}),&space;m_2&space;=&space;g(I_n&space;&plus;&space;\Delta&space;t\frac{k_1}{2}))
+![](/assets/2_20.png)
 
-![](http://latex.codecogs.com/svg.latex?k_3&space;=&space;f(I_n&space;&plus;&space;\Delta&space;t\frac{k_2}{2},&space;U_c_n&space;&plus;&space;\Delta&space;t\frac{m_2}{2}),&space;m_3&space;=&space;g(I_n&space;&plus;&space;\Delta&space;t\frac{k_2}{2}))
+![](/assets/2_21.png)
 
-![](http://latex.codecogs.com/svg.latex?k_4&space;=&space;f(I_n&space;&plus;&space;\Delta&space;t&space;k_3,&space;U_c_n&space;&plus;&space;\Delta&space;tm_3),&space;m_4&space;=&space;g(I_n&space;&plus;&space;\Delta&space;tk_3))
+![](/assets/2_22.png)
 
 Помимо `I(t)` и `Uc(t)`, которые тут вычисляются, надо также вывести:
  * `Rp(t)` - по сути, это просто значение сопротивления _Rp_ для соответствующего значения силы тока _I_
@@ -248,35 +246,35 @@ _Замечание. Посмотреть метод в общем виде мо
 
 Возьмем уже знакомые уравнения:
 
-![](http://latex.codecogs.com/svg.latex?\frac{dI}{dt}&space;=&space;\frac{U_c&space;-&space;\(R_k&plus;R_p\(I\)\)I}{L_k}&space;\equiv&space;f(I,&space;Uc))
+![](/assets/2_23.png)
 
-![](http://latex.codecogs.com/svg.latex?\frac{dU_c}{dt}&space;=&space;-\frac{1}{C_k}I&space;\equiv&space;g(I))
+![](/assets/2_24.png)
 
 Запишем выражения для метода:
 
-![](http://latex.codecogs.com/svg.latex?I_{n&plus;1}&space;=&space;I_n&space;&plus;&space;\Delta&space;t\frac{f(I_n,&space;U_c_n)&space;&plus;&space;f(I_{n&plus;1},&space;U_{cn&plus;1})}{2})
+![](/assets/2_25.png)
 
-![](http://latex.codecogs.com/svg.latex?U_{cn&plus;1}&space;=&space;U_c_n&space;&plus;&space;\Delta&space;t\frac{g(I_n)&space;&plus;&space;g(I_{n&plus;1})}{2})
+![](/assets/2_26.png)
 
 Подставим выражения _f_ и _g_:
 
-![](http://latex.codecogs.com/svg.latex?I_{n&plus;1}&space;=&space;I_n&space;&plus;&space;\Delta&space;t\frac{U_c_n&space;-&space;(R_k&space;&plus;&space;R_p(I_n))I_n&space;&plus;&space;U_{cn&plus;1}&space;-&space;(R_k&space;&plus;&space;R_p(I_{n&plus;1}))I_{n&plus;1}}{2L_k})
+![](/assets/2_27.png)
 
-![](http://latex.codecogs.com/svg.latex?U_{cn&plus;1}&space;=&space;U_c_n&space;-&space;\Delta&space;t\frac{I_n&plus;&space;I_{n&plus;1}}{2C_k})
+![](/assets/2_28.png)
 
 Ну зашибись (на самом деле нет), получили систему с двумя неизвестными: `In+1` и `Ucn+1`. Теперь нужно подставить выражение для `Ucn+1` из второго уравнения в первое. Получившийся трэш надо решить относительно `In+1`. Я забил это добро в вольфрам и получил следующий результат:
 
-![](http://latex.codecogs.com/svg.latex?I_{n&plus;1}&space;=&space;\frac{-2C_kR_p(I_n)I_n\Delta&space;t&space;&plus;&space;4C_kL_kI_n-2C_kI_nR_k\Delta&space;t&plus;4C_kU_c_n\Delta&space;t-I_n\Delta&space;t^2}{4C_kL_k&space;&plus;&space;2C_kR_k\Delta&space;t&plus;2C_kR_p(I_{n&plus;1})\Delta&space;t&space;&plus;&space;\Delta&space;t^2})
+![](/assets/2_29.png)
 
 Но и это еще не все: можно заметить, что в правой части фигурирует `Rp(In+1)`. Фактически, мы получили уравнение вида x = f(x). Решить данное уравнение можно методом простой итерации:
 
-![](http://latex.codecogs.com/svg.latex?x^{\(s\)}&space;=&space;f(x^{\(s-1\)}))
+![](/assets/2_30.png)
 
-Сначала в правую часть подставляется уже известный In. Полученное значение снова подставляем в правую часть и получаем уже новое значение, более точное. Операцию повторяем до тех пор, пока не будет достигнута необходимая точность (как ранее в методе половинного деления, но здесь наше условие выглядит как while  ![](http://latex.codecogs.com/svg.latex?|(I^{\(s)}&space;-&space;I^{(s-1\)})&space;/&space;I^{(s)}|&space;>&space;\varepsilon).
+Сначала в правую часть подставляется уже известный In. Полученное значение снова подставляем в правую часть и получаем уже новое значение, более точное. Операцию повторяем до тех пор, пока не будет достигнута необходимая точность (как ранее в методе половинного деления, но здесь наше условие выглядит как while  ![](http://www.matheboard.de/latex2png/latex2png.php?|(I^{(s)}-I^{(s-1)})/I^{(s)}|%3E\varepsilon).
 
 После получения `In+1` находим `Ucn+1` по ранее указанной формуле:
 
-![](http://latex.codecogs.com/svg.latex?U_{cn&plus;1}&space;=&space;U_c_n&space;-&space;\Delta&space;t\frac{I_n&plus;&space;I_{n&plus;1}}{2C_k})
+![](/assets/2_31.png)
 
 И не забываем про значения Rp и Ucp.
 
