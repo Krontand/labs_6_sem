@@ -102,5 +102,23 @@ _`τ` - шаг по времени._
 
 _Буквы немного отличаются от тех, что предыдущей работе, это из-за наличия теплоемкости, которая обозначается буквой `C`. Галочки, как и раньше, обозначают, что переменные берутся в новый момент времени._
 
+![](http://latex.codecogs.com/gif.latex?\widehat{A_n}&space;=&space;\tau\frac{X_{n-1/2}}{h})
+
+![](http://latex.codecogs.com/gif.latex?\widehat{D_n}&space;=&space;\tau\frac{X_{n&plus;1/2}}{h})
+
+![](http://latex.codecogs.com/gif.latex?\widehat{B_n}=\widehat{A_n}&plus;\widehat{D_n}&plus;p_nh\tau&plus;\widehat{C_n}h)
+
+![](http://latex.codecogs.com/gif.latex?\widehat{F_n}=\widehat{C_n}hy_n&plus;f_nh\tau)
+
+..где:
+
+![](http://latex.codecogs.com/gif.latex?\widehat{X_{n-1/2}}=\frac{\widehat{k_{n-1}}&plus;\widehat{k_n}}{2};\widehat{X_{n&plus;1/2}}=\frac{\widehat{k_n}&plus;\widehat{k_{n&plus;1}}}{2})
+
+![](http://latex.codecogs.com/gif.latex?\widehat{k_n}=k(\widehat{T_n});\widehat{T_n}=\widehat{T}(x_n))
+
+![](http://latex.codecogs.com/gif.latex?p_n=\frac{2\alpha(x_n)}{R})
+
+![](http://latex.codecogs.com/gif.latex?f_n=\frac{2\alpha(x_n)}{R}T_{env})
+
 
 
