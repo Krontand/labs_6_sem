@@ -3,6 +3,8 @@
 
 #### Слава Ктулху, линеаризацию можно не использовать, что весьма ощутимо облегчает лабу.
 
+**Везде в руководстве под переменной `y` подразумевается температура `T`.**
+
 Эта лабораторная является усложненным вариантом третьей лабораторной. В 3-ей необходимо было решить так называемую стационарную задачу - т.е. найти уже установившуюся температуру на всей длине стержня. В этой работе появляется зависимость от времени - необходимо как бы проследить весь процесс нагрева стержня. На выходе нужно построить график с изолиниями: каждая линия соответствует нагреву стержня в определенный момент времени.
 
 ![](/assets/l3_example.png)
@@ -80,7 +82,7 @@ _Данные для вольфрама._
  ## Разностная схема и коэффициенты для прогонки
  
  _Замечание. Галочкой сверху обозначается, что переменная берется в следующий момент времени, соответственно, без галочки - в предыдущий момент времени:_
- ![](http://latex.codecogs.com/gif.latex?y_n&space;=&space;y(x_n,&space;t_m);\widehat{y_n}&space;=&space;y(x_n,&space;t_{m&plus;1}))
+ ![](http://latex.codecogs.com/gif.latex?y_n&space;=&space;y(x_n,&space;t_m);\widehat{y}_n&space;=&space;y(x_n,&space;t_{m&plus;1}))
  
  Как и в предыдущей работе, для получения разностной схемы, используем интегро-интерполяционный метод, однако здесь интегрируем на ячейке по двум переменным: по координате `x` и по времени `t`.
  
@@ -90,35 +92,85 @@ _Данные для вольфрама._
 
 ![](http://latex.codecogs.com/gif.latex?\int_{x_{n-1/2}}^{x_{n&plus;1/2}}\widehat{C}(\widehat{y}-y)dx=\int_{t_m}^{t_{m&plus;1}}\left(X_{n-1/2}\frac{y_{n-1}-y_n}{h}-X_{n&plus;1/2}\frac{y_n-y_{n&plus;1}}{h}-p_nhy_n&plus;f_nh\right)dt)
 
-Теперь проинтегрируем по оставшимся переменным. Слева используем метод средних прямоугольников. Справа возьмем значение не в середине интервала, а в следующий момент времени `t_m+1`.
+Теперь проинтегрируем по оставшимся переменным. Слева используем метод средних прямоугольников. Справа возьмем значение не в середине интервала, а в следующий момент времени `t_m+1`. 
+_Получится так называемая **чисто неявная схема** - ведь нам пока неизвестны эти самые значения в следующий момент времени. Для их нахождения мы и используем метод итераций во внутреннем цикле. Если бы мы взяли значения в момент `t_m`, то есть в предыдущий момент времени, то получилась бы **чисто явная схема**. Также возможны смешанные варианты, например, среднее от значений в предыдущий и следующий момент времени._
 
-![](http://latex.codecogs.com/gif.latex?\widehat{C_n}(\widehat{y_n}-y_n)h=\tau\widehat{X_{n-1/2}}\frac{\widehat{y_{n-1}}-\widehat{y_n}}{h}-\tau\widehat{X_{n&plus;1/2}}\frac{\widehat{y_n}-\tau\widehat{y_{n&plus;1}}}{h}-\tau&space;p_nh\widehat{y_n}&plus;\tau&space;f_nh)
+![](http://latex.codecogs.com/gif.latex?\widehat{C}_n(\widehat{y}_n-y_n)h=\tau\widehat{X}_{n-1/2}\frac{\widehat{y}_{n-1}-\widehat{y}_n}{h}-\tau\widehat{X}_{n&plus;1/2}\frac{\widehat{y}_n-\tau\widehat{y}_{n&plus;1}}{h}-\tau&space;p_nh\widehat{y}_n&plus;\tau&space;f_nh)
 
 _`τ` - шаг по времени._
 
+### Формулы
+
 Преобразуем к виду, подходящему для прогонки, то есть:
 
-![](http://latex.codecogs.com/gif.latex?\widehat{A_n}\widehat{y_{n-1}}-\widehat{B_n}\widehat{y_n}&plus;\widehat{D_n}\widehat{y_{n&plus;1}}=-\widehat{F_n})
+![](http://latex.codecogs.com/gif.latex?\widehat{A}_n\widehat{y}_{n-1}-\widehat{B}_n\widehat{y}_n&plus;\widehat{D}_n\widehat{y}_{n&plus;1}=-\widehat{F}_n)
 
 _Буквы немного отличаются от тех, что предыдущей работе, это из-за наличия теплоемкости, которая обозначается буквой `C`. Галочки, как и раньше, обозначают, что переменные берутся в новый момент времени._
 
-![](http://latex.codecogs.com/gif.latex?\widehat{A_n}&space;=&space;\tau\frac{X_{n-1/2}}{h})
+![](http://latex.codecogs.com/gif.latex?\widehat{A}_n&space;=&space;\tau\frac{\widehat{X}_{n-1/2}}{h})
 
-![](http://latex.codecogs.com/gif.latex?\widehat{D_n}&space;=&space;\tau\frac{X_{n&plus;1/2}}{h})
+![](http://latex.codecogs.com/gif.latex?\widehat{D}_n&space;=&space;\tau\frac{\widehat{X}_{n&plus;1/2}}{h})
 
-![](http://latex.codecogs.com/gif.latex?\widehat{B_n}=\widehat{A_n}&plus;\widehat{D_n}&plus;p_nh\tau&plus;\widehat{C_n}h)
+![](http://latex.codecogs.com/gif.latex?\widehat{B}_n=\widehat{A}_n&plus;\widehat{D}_n&plus;p_nh\tau&plus;\widehat{C}_nh)
 
-![](http://latex.codecogs.com/gif.latex?\widehat{F_n}=\widehat{C_n}hy_n&plus;f_nh\tau)
+![](http://latex.codecogs.com/gif.latex?\widehat{F}_n=\widehat{C}_nhy_n&plus;f_nh\tau)
 
 ..где:
 
-![](http://latex.codecogs.com/gif.latex?\widehat{X_{n-1/2}}=\frac{\widehat{k_{n-1}}&plus;\widehat{k_n}}{2};\widehat{X_{n&plus;1/2}}=\frac{\widehat{k_n}&plus;\widehat{k_{n&plus;1}}}{2})
+![](http://latex.codecogs.com/gif.latex?\widehat{X}_{n-1/2}=\frac{\widehat{k}_{n-1}&plus;\widehat{k}_n}{2};\widehat{X}_{n&plus;1/2}=\frac{\widehat{k}_n&plus;\widehat{k}_{n&plus;1}}{2})
 
-![](http://latex.codecogs.com/gif.latex?\widehat{k_n}=k(\widehat{T_n});\widehat{T_n}=\widehat{T}(x_n))
+![](http://latex.codecogs.com/gif.latex?\widehat{k}_n=k(\widehat{T}_n);\widehat{T}_n=\widehat{T}(x_n))
 
 ![](http://latex.codecogs.com/gif.latex?p_n=\frac{2\alpha(x_n)}{R})
 
 ![](http://latex.codecogs.com/gif.latex?f_n=\frac{2\alpha(x_n)}{R}T_{env})
 
+## Граничные условия
 
+Несмотря на то, что исходные краевые условия не изменились, изменившееся условие даст новый вид разностного аналога краевых условий.
 
+Получаем же их тем же методом, что и в прошлой работе: интегрируем на половине первого и на половине последнего интервалов (а также на ячейке по времени):
+
+![](http://latex.codecogs.com/gif.latex?\int_{x_0}^{x_{1/2}}dx\int_{t_m}^{t_{m&plus;1}}C(T)\frac{\partial&space;T}{\partial&space;t}dt=\int_{t_m}^{t_{m&plus;1}}dt\int_{x_0}^{x_{1/2}}\left(\frac{\partial}{\partial&space;x}\left(k(T)\frac{\partial&space;T}{\partial&space;x}\right)-\frac{2\alpha(x)}{R}T(x)&plus;\frac{2\alpha(x)}{R}*T_{env}\right&space;))
+
+Для правой части можно воспользоваться уже выведенным условием в третьей работе, а для интегрирования по времени опять возьмем значение в новый момент времени.
+
+Левую же часть проинтегрируем в два этапа - сначала по времени:
+
+![](http://latex.codecogs.com/gif.latex?\int_{x_0}^{x_{1/2}}dx\int_{t_m}^{t_{m&plus;1}}C(T)\frac{\partial&space;T}{\partial&space;t}dt=\int_{x_0}^{x_{1/2}}\widehat{C}(\widehat{y}-y)dx)
+
+А затем по иксу, используя метод трапеций:
+
+![](http://latex.codecogs.com/gif.latex?\int_{x_0}^{x_{1/2}}\widehat{C}(\widehat{y}-y)dx=\frac{h}{4}(\widehat{C}_{1/2}(\widehat{T}_{1/2}-T_{1/2})&plus;\widehat{C}_0(\widehat{T}_0-T_0)))
+
+Я опущу полный процесс вывода (потому что сам его не делал, просто добавил нужные множители и слагаемые в уже имеющиеся формулы для краевых условий).
+
+Итак, в итоге имеем краевое условие вида
+
+![](http://latex.codecogs.com/gif.latex?\widehat{K}_0\widehat{y}_0&plus;\widehat{M}_0\widehat{y}_1=\widehat{P}_0)
+
+С коэффициентами:
+
+![](http://latex.codecogs.com/gif.latex?\widehat{K}_0=\tau(\frac{\widehat{X}_{1/2}}{h}&plus;\frac{h}{8}p_{1/2}&plus;\frac{h}{4}p_0)&plus;\frac{h}{4}\widehat{C}_0&plus;\frac{h}{8}\widehat{C}_{1/2})
+
+![](http://latex.codecogs.com/gif.latex?\widehat{M}_0=\tau(\frac{h}{8}p_{1/2}-\frac{\widehat{X}_{1/2}}{h})&plus;\frac{h}{8}\widehat{C}_{1/2})
+
+![](http://latex.codecogs.com/gif.latex?\widehat{P}_0=\tau&space;F_0&plus;\tau&space;\frac{h}{8}(3f_0&plus;f_1)&plus;\frac{h}{4}\widehat{C}_0&plus;\frac{h}{8}\widehat{C}_{1/2}(y_0&plus;y_1))
+
+_NB! В `P0` используется `y0` и `y1` без галочки, то есть в **предыдущий** момент времени. С точки зрения программы - значение из массива с предыдущей итерации внешнего цикла._
+
+С правой частью все аналогично, только интегрируем на половине последнего шага.
+
+![](http://latex.codecogs.com/gif.latex?\widehat{K}_N=-\tau\left(\frac{\widehat{X}_{N-1/2}}{h}&plus;\alpha_N&plus;\frac{h}{4}p_N&plus;\frac{h}{8}p_{N-1/2}\right)&space;&plus;\frac{h}{4}\widehat{C}_N&plus;\frac{h}{8}\widehat{C}_{N-1/2})
+
+![](http://latex.codecogs.com/gif.latex?\widehat{M}_N=\tau\left(\frac{\widehat{X}_{N-1/2}}{h}-\frac{h}{8}p_{N-1/2}\right)&space;&plus;\frac{h}{8}\widehat{C}_{N-1/2})
+
+![](http://latex.codecogs.com/gif.latex?\widehat{P}_N=-\alpha_NT_{env}\tau-\tau\frac{h}{8}(3f_N&plus;f_{N-1})&plus;\frac{h}{4}\widehat{C}_Ny_N&plus;\frac{h}{8}\widehat{C}_{N-1/2}(y_N&plus;y_{N-1}))
+
+## Итерации
+
+Для получения нагрева в следующий момент времени необходимо использовать метод итераций:
+
+![](http://latex.codecogs.com/gif.latex?\widehat{A}_n^{(s-1)}\widehat{y}_{n-1}^{(s)}-\widehat{B}_n^{(s-1)}\widehat{y}_n^{(s)}&plus;\widehat{D}_n^{(s-1)}\widehat{y}_{n&plus;1}^{(s)}=-\widehat{F}^{(s-1)}_n)
+
+То есть вычислять коэффициенты для прогонки, используя полученное на предыдущем шаге приближение, чтобы получить новое решение. Повторять, пока максимальное изменение не станет достаточно мало.
