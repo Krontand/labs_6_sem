@@ -159,7 +159,7 @@ _Буквы немного отличаются от тех, что предыд
 
 ![](http://latex.codecogs.com/gif.latex?\widehat{M}_0=\tau(\frac{h}{8}p_{1/2}-\frac{\widehat{X}_{1/2}}{h})&plus;\frac{h}{8}\widehat{C}_{1/2})
 
-![](http://latex.codecogs.com/gif.latex?\widehat{P}_0=\tau&space;F_0&plus;\tau&space;\frac{h}{8}(3f_0&plus;f_1)&plus;\frac{h}{4}\widehat{C}_0&plus;\frac{h}{8}\widehat{C}_{1/2}(y_0&plus;y_1))
+![](http://latex.codecogs.com/gif.latex?\widehat{P}_0=\tau&space;F_0&plus;\tau&space;\frac{h}{8}(3f_0&plus;f_1)&plus;\frac{h}{4}\widehat{C}_0y_0&plus;\frac{h}{8}\widehat{C}_{1/2}(y_0&plus;y_1))
 
 _NB! В `P0` используется `y0` и `y1` без галочки, то есть в **предыдущий** момент времени. С точки зрения программы - значение из массива с предыдущей итерации внешнего цикла._
 
